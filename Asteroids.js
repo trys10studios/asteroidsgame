@@ -6,24 +6,31 @@ const canWidth = 800;
 canvas.height = canHeight;
 canvas.width = canWidth;
 
-var rightPressed = false;
-var leftPressed = false;
-var upPressed = false;
-var downPressed = false;
+let rightPressed = false;
+let leftPressed = false;
+let upPressed = false;
+let downPressed = false;
+let firePressed = false;
 
-var KeyboardHelper = { left: 37, up: 38, right: 39, down: 40, fire: 17 };
+let KeyboardHelper = {
+    left: 37, altLeft: 65,
+    up: 38, altUp: 87,
+    right: 39, altRight: 68,
+    down: 40, altDown: 83,
+    fire: 17, altFire: 191
+};
 
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 
 // Variables for player start position
-let x = canvas.width / 2; // Center of canvas
+let length = 20; // Player ship length
+let x = canvas.width / 2 - length; // Center of canvas, minus offset of ship length
 let y = canvas.height / 2; // Center of canvas
 
 let playerMoveSpeed = 1;
 let laserLength = 10;
 
-let length = 20;
 let asteroidLength = 20;
 let asteroidCount = 20;
 
@@ -37,34 +44,43 @@ let asteroidY = 0;
 console.log(x, y, "Triangle: x - Position: " + x + ", y - Position: " + y);
 
 function keyDownHandler(event) {
-    if (event.keyCode == KeyboardHelper.right) {
+    if (event.keyCode == KeyboardHelper.right ||
+        event.keyCode == KeyboardHelper.altRight) {
         rightPressed = true;
     }
-    else if (event.keyCode == KeyboardHelper.left) {
+    else if (event.keyCode == KeyboardHelper.left ||
+        event.keyCode == KeyboardHelper.altLeft) {
         leftPressed = true;
     }
-    if (event.keyCode == KeyboardHelper.down) {
+    if (event.keyCode == KeyboardHelper.down ||
+        event.keyCode == KeyboardHelper.altDown) {
         downPressed = true;
     }
-    else if (event.keyCode == KeyboardHelper.up) {
+    else if (event.keyCode == KeyboardHelper.up ||
+        event.keyCode == KeyboardHelper.altUp) {
         upPressed = true;
     }
-    if (event.keyCode == KeyboardHelper.fire) {
+    if (event.keyCode == KeyboardHelper.fire ||
+        event.keyCode == KeyboardHelper.altFire) {
         firePressed = true;
     }
 }
 
 function keyUpHandler(event) {
-    if (event.keyCode == KeyboardHelper.right) {
+    if (event.keyCode == KeyboardHelper.right ||
+        event.keyCode == KeyboardHelper.altRight) {
         rightPressed = false;
     }
-    else if (event.keyCode == KeyboardHelper.left) {
+    else if (event.keyCode == KeyboardHelper.left ||
+        event.keyCode == KeyboardHelper.altLeft) {
         leftPressed = false;
     }
-    if (event.keyCode == KeyboardHelper.down) {
+    if (event.keyCode == KeyboardHelper.down ||
+        event.keyCode == KeyboardHelper.altDown) {
         downPressed = false;
     }
-    else if (event.keyCode == KeyboardHelper.up) {
+    else if (event.keyCode == KeyboardHelper.up ||
+        event.keyCode == KeyboardHelper.altUp) {
         upPressed = false;
     }
 }
@@ -165,9 +181,6 @@ function asteroid(length, asteroidX, asteroidY) {
     ctx.strokeStyle = 'gray';
 
     ctx.stroke();
-
-    asteroidY = y;
-    return asteroidY;
 }
 
 function getRandomInt(min, max) {
@@ -181,12 +194,10 @@ function getRandomInt(min, max) {
 function createAsteroids() {
     for (let i = 0; i < asteroidCount; i++) {
         asteroid(asteroidLength, randNumArr[i], randNumArr[i * 2 + 2] += asteroidSpeed)
-        if (asteroidY > canHeight)
-            asteroid(asteroidLength, randNumArr[i], 0);
     }
 }
 
-var randNumArr = [];
+let randNumArr = [];
 for (let i = 0; i < asteroidCount; i++) {
     randNumArr[i] = getRandomInt(canWidth, canHeight);
 }
@@ -199,7 +210,6 @@ function draw() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         createAsteroids();
-
         triangle(length, x, y);
         shootLaser();
         movePlayer();
