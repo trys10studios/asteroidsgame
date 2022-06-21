@@ -12,6 +12,8 @@ let upPressed = false;
 let downPressed = false;
 let firePressed = false;
 
+let hasStarted = false;
+
 let KeyboardHelper = {
     left: 37, altLeft: 65,
     up: 38, altUp: 87,
@@ -47,22 +49,27 @@ function keyDownHandler(event) {
     if (event.keyCode == KeyboardHelper.right ||
         event.keyCode == KeyboardHelper.altRight) {
         rightPressed = true;
+        hasStarted = true;
     }
     else if (event.keyCode == KeyboardHelper.left ||
         event.keyCode == KeyboardHelper.altLeft) {
         leftPressed = true;
+        hasStarted = true;
     }
     if (event.keyCode == KeyboardHelper.down ||
         event.keyCode == KeyboardHelper.altDown) {
         downPressed = true;
+        hasStarted = true;
     }
     else if (event.keyCode == KeyboardHelper.up ||
         event.keyCode == KeyboardHelper.altUp) {
         upPressed = true;
+        hasStarted = true;
     }
     if (event.keyCode == KeyboardHelper.fire ||
         event.keyCode == KeyboardHelper.altFire) {
         firePressed = true;
+        hasStarted = true;
     }
 }
 
@@ -113,7 +120,7 @@ function laser(length, x, y, status) {
 }
 
 function shootLaser() {
-    // 'Ctrl' used for "fire"
+    // 'Ctrl' and '/' used for "fire"
 
     if (firePressed) {
         laserY -= laserSpeed;
@@ -209,10 +216,13 @@ function draw() {
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        createAsteroids();
         triangle(length, x, y);
         shootLaser();
         movePlayer();
+
+        if (hasStarted == true) {
+            createAsteroids();
+        }
     }
 }
 
