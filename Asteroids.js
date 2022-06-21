@@ -220,7 +220,7 @@ function draw() {
         shootLaser();
         movePlayer();
 
-        if (hasStarted == true) {
+        if (hasStarted) {
             createAsteroids();
         }
     }
