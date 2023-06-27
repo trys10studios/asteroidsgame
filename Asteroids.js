@@ -163,17 +163,17 @@ function movePlayer() {
     }
 }
 
-function asteroid(length, asteroidX, asteroidY) {
+function asteroid(asteroidLength, asteroidX, asteroidY) {
     let x = asteroidX;
     let y = asteroidY;
 
     let pointA = [x, y];
-    let pointB = [x, y + length];
-    let pointC = [x - length, y + length];
-    let pointD = [x - length * 2, y];
-    let pointE = [x - length, y - length * 2];
-    let pointF = [x + length / 2, y - length * 2];
-    let pointG = [x + length * 2, y - length];
+    let pointB = [x, y + asteroidLength];
+    let pointC = [x - asteroidLength, y + asteroidLength];
+    let pointD = [x - asteroidLength * 2, y];
+    let pointE = [x - asteroidLength, y - asteroidLength * 2];
+    let pointF = [x + asteroidLength / 2, y - asteroidLength * 2];
+    let pointG = [x + asteroidLength * 2, y - asteroidLength];
 
     ctx.beginPath();
     ctx.moveTo(pointA[0], pointA[1]);
